@@ -39,4 +39,4 @@ async function getCandidates() {
     return List;
 }
 
-export default getCandidates
+export default getCandidates;

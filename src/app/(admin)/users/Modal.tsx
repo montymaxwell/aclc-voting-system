@@ -27,6 +27,11 @@ function UserModal() {
       firstname,
       middleInitial,
     })
+
+    console.log(res)
+    if(res.state === true) {
+      setModal(!modal);
+    }
   }
 
   return (
