@@ -122,10 +122,11 @@ function Card({ data, action }: { data: CandidateType; action?: () => void }) {
                     <div className="w-48 h-48">
                         <Image
                             src={user.icon ? user.icon : ""}
-                            layout="fill"
-                            objectFit="cover"
-                            className="rounded-md"
+                            width={120}
+                            height={120}
+                            className="rounded-md bg-cover"
                             alt="candidate image"
+                            priority
                         />
                     </div>
                 </div>
