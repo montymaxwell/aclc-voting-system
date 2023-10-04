@@ -1,0 +1,23 @@
+.form-label {
+  @apply text-sm font-medium
+}
+
+.text-input {
+  border-radius: 0.3rem;
+
+  @apply w-full block px-3 py-2 outline-none border border-gray-300
+}
+
+.primary-input {
+  @apply hover:border-blue-400 focus-within:border-blue-400
+}
+
+.button {
+  border-radius: 0.3rem;
+
+  @apply text-base font-medium p-3
+}
+
+.success {
+  @apply bg-green-400 text-white
+}

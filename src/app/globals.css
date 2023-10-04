@@ -1,0 +1,126 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.fluid-flex {
+  flex: 1 0 auto
+}
+
+.input-text {
+  @apply px-4 py-2 rounded-lg
+}
+
+.form {
+  @apply w-4/5 h-1/2 p-10 rounded-lg md:w-1/2 lg:w-5/12 lg:h-1/2 xl:w-96 xl:h-96
+}
+
+.btn {
+  @apply rounded-lg text-center px-4 py-3
+}
+
+.footer {
+  @apply w-full pt-5 bg-blue-950
+}
+
+.nav-item {
+  @apply px-4 py-3 flex flex-row items-center select-none rounded-lg hover:bg-gray-200
+}
+
+.nav-item>span {
+  @apply text-sm
+}
+
+.nav-item>* {
+  @apply mx-2
+}
+
+.dropdown-content {
+  @apply px-4 py-2
+}
+
+.dropdown-content>* {
+  @apply border-l border-gray-300
+}
+
+.ui-table {
+  @apply p-5 border-b border-solid border-gray-300
+}
+
+.ui-table-head {
+  @apply bg-gray-100 p-5 text-start text-sm
+}
+
+.ui-table-data {
+  @apply p-5 text-sm
+}
+
+.input {
+  @apply w-auto m-2 px-4 py-2 rounded-lg outline-none
+}
+
+.VoteCard {
+  @apply w-full h-full flex gap-2 select-none p-5 rounded-lg bg-gray-100 text-black
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.link {
+  @apply w-full flex flex-col p-2 pt-3 items-center justify-center
+}
+
+.link>span {
+  @apply text-xs font-medium my-1
+}
+
+.link>svg {
+  @apply text-3xl
+}
+
+.form-label {
+  @apply text-sm font-medium
+}
+
+.text-input {
+  border-radius: 0.3rem;
+
+  @apply w-full block px-3 py-2 outline-none border border-gray-300
+}
+
+.primary-input {
+  @apply hover:border-blue-400 focus-within:border-blue-400
+}
+
+.button {
+  border-radius: 0.3rem;
+
+  @apply text-base font-medium p-3 px-5
+}
+
+.success {
+  @apply bg-green-400 text-white
+}
+
+.error {
+  @apply bg-red-500 text-white
+}
