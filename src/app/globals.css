@@ -124,3 +124,7 @@
 .error {
   @apply bg-red-500 text-white
 }
+
+pre {
+  @apply w-auto
+}

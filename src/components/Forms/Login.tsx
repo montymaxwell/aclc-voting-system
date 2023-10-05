@@ -63,8 +63,9 @@ function Login() {
   return (
     <div className="w-full flex flex-col">
       <div className='w-full my-8 text-center'>
-        <h1 className='text-5xl font-bold text-blue-900'>AMA</h1>
-        <h6 className='text-lg'>Voting System</h6>
+        <h1 className='text-6xl font-bold text-blue-900'>ACLC</h1>
+        <h2 className='text-2xl font-semibold text-blue-900'>College of Daet</h2>
+        <h6 className='text-lg mt-2'>SSC Voting System</h6>
       </div>
       <div className='w-full flex flex-col my-2 px-5'>
         <label htmlFor="USN" className='form-label mx-3 my-2'>USN</label>
