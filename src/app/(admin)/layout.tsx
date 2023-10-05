@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { MdBuildCircle, MdFlag, MdPeople, MdPerson } from "react-icons/md"
+import { MdBallot, MdBuildCircle, MdFlag, MdPeople, MdPerson } from "react-icons/md"
 import LogoutBtn from "@/components/LogoutBtn"
 import { FaVoteYea } from "react-icons/fa"
 
@@ -26,6 +26,10 @@ function AdminLayout({ children }: LayoutProps) {
           <Link href='/votes' className="link hover:bg-slate-900">
             <FaVoteYea />
             <span>Votes</span>
+          </Link>
+          <Link href='/votes2' className="link hover:bg-slate-900">
+            <MdBallot />
+            <span>Voting</span>
           </Link>
           <Link href='/tools' className="link hover:bg-slate-900">
             <MdBuildCircle />

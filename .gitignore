@@ -35,4 +35,7 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-/data
+/public/files
+/src/components/Votes
+/src/app/(admin)/votes2
+/src/app/api/voting

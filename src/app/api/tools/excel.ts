@@ -63,6 +63,12 @@ export default function excel(path: string) {
                     if(SheetName === 'Sheet1') {
                         obj.strand = 'TVL';
                     }
+                    else if(SheetName.includes('BSIT')) {
+                        obj.strand = SheetName.slice(0, 4);
+                    }
+                    else if(SheetName.includes('ACT') || SheetName.includes('BSE')) {
+                        obj.strand = SheetName.slice(0, 3);
+                    }
                     else {
                         obj.strand = getShortStrand(SheetName);
                     }

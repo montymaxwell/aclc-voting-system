@@ -1,6 +1,6 @@
 import { ServerResponse } from "@/app/api/types";
 
-declare type APIEndpoints = 'auth' | 'users' | 'party' | 'candidates' | 'images' | 'v1/voting'
+declare type APIEndpoints = 'auth' | 'users' | 'party' | 'candidates' | 'images' | 'voting'
 
 // a poor man's attempt to an typed fetch api
 function api(endpoint: APIEndpoints) {
