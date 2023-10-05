@@ -1,5 +1,5 @@
 import { CandidateType } from "@/lib/types";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Votes } from "./index";
 import { MdVerified } from "react-icons/md";
 import Image from "next/image";
@@ -74,11 +74,12 @@ function Candidates({ data }: Props) {
         );
     };
 
+    // className="h-fit w-full max-w-[400px] my-1"
     // If you're still reading this. Honestly, I forgot what is going on up there but i do know that it works
     // sleepless nights can really make you forget a lot of things hehe ;)
     return candidates.map((candidate, index: number) => (
         <div
-            className="h-fit w-full max-w-[400px] my-1"
+            className="flex-auto md:w-full lg:w-3/12 mx-2 my-1"
             key={`${String(candidate.position)}-${index}`}
         >
             <Card
@@ -92,29 +93,17 @@ function Candidates({ data }: Props) {
             />
         </div>
     ));
-
-    // return candidates.map((candidate, index: number) => {
-    //     // if(candidate.position === 'VicePresident') {
-    //     //   const tmp = candidates.splice(candidates.length - 1, 1);
-    //     //   setCandidates(v => [candidate, ...tmp])
-    //     // }
-    //     // else if(candidate.position === 'President') {
-    //     //   const tmp = candidates.splice(candidates.length - 1, 1);
-    //     //   setCandidates(v => [candidate, ...tmp])
-    //     // }
-    // });
 }
 
 function Card({ data, action }: { data: CandidateType; action?: () => void }) {
-    const { displayPosition, ...user } = data;
+    const { displayPosition, ...user } = data
 
     return (
         <div
             role="button"
             onClick={action}
-            className={`VoteCard border-4 ${
-                user.selected ? "border-green-400" : "border-transparent"
-            }`}
+            className={`VoteCard border-4 ${user.selected ? "border-green-400" : "border-transparent"
+                }`}
         >
             {/* for image */}
             <div className="w-32 h-32 p-1 relative">
@@ -137,14 +126,16 @@ function Card({ data, action }: { data: CandidateType; action?: () => void }) {
 
             <div className="flex-auto pl-3">
                 {/* <h6 className="font-light mb-2 text-gray-500">Something</h6> */}
-                <h1 className="text-1xl font-medium">{`${user.firstname} ${user.middleInitial}. ${user.lastname}`}</h1>
+                <h1 className="text-1xl font-medium ">
+                    {`${user.firstname} ${(user.middleInitial !== ' ' ? `${user.middleInitial}.` : '')} ${user.lastname}`}
+                </h1>
                 <h3 className="font-light text-lg text-gray-400">
                     {displayPosition}
                 </h3>
                 <h6 className="text-md font-normal">{user.party}</h6>
             </div>
             {user.selected && (
-                <div className="-mt-4">
+                <div className="-mt-1">
                     <MdVerified className="text-3xl text-green-400" />
                 </div>
             )}

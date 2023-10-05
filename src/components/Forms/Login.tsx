@@ -87,7 +87,7 @@ function Login() {
       <div className='w-full flex flex-col my-2 px-5'>
         <label htmlFor="Password" className='form-label mx-3 my-2'>Password</label>
         <input
-          type="text"
+          type="password"
           name='password'
           placeholder='Password'
           className='text-input primary-input'

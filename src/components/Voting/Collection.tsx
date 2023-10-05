@@ -83,7 +83,7 @@ function Collection({ data }: Props) {
         ],
     };
 
-    const User = useUserStore();
+    const User: any = useUserStore();
     const userStrand = User.userInfo.strand;
 
     useLayoutEffect(() => {
@@ -131,7 +131,7 @@ function Collection({ data }: Props) {
                     </h1>
                 )}
             </div>
-            <div className="w-full my-2 flex flex-wrap justify-center gap-2">
+            <div className="w-full my-2 flex flex-row flex-wrap">
                 <Candidates data={voting} />
             </div>
         </div>

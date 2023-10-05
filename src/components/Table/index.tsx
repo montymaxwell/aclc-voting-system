@@ -4,6 +4,7 @@ import { ServerResponse } from "@/app/api/types"
 import { MdDelete, MdEdit } from "react-icons/md"
 
 import { useState } from "react"
+import RouteGuard from "@/app/(admin)/RouteGuard"
 
 type TableProps = {
   head: Array<string>
@@ -33,35 +34,37 @@ function Table({ head, body, api }: TableProps) {
 
   return (
     <div className="w-full h-full">
-      <table className='table-auto w-full'>
-        <thead>
-          <tr className='ui-table-row'>
-            {head.map((text) => (
-              <th key={text}
-                className='ui-table-head border border-gray-200 text-gray-400'
-              >{String(text)}</th>
-            ))}
-            <th className='ui-table-head border border-gray-200' />
-          </tr>
-        </thead>
-        <tbody className='border-x border-b border-gray-200'>
-          {data.map((entries, i) => (
-            <tr key={`tbody-row-${i}`} className='ui-table-row border border-gray-200'>
-              {Object.values(entries).map((text, i) => (
-                <td key={`tbody-data-${i}`} className='ui-table-data border border-gray-200'>{String(text)}</td>
+      <RouteGuard>
+        <table className='table-auto w-full'>
+          <thead>
+            <tr className='ui-table-row'>
+              {head.map((text) => (
+                <th key={text}
+                  className='ui-table-head border border-gray-200 text-gray-400'
+                >{String(text)}</th>
               ))}
-              <td className='ui-table-data border border-gray-200'>
-                <div className='w-full h-full flex justify-around items-center'>
-                  {/* <button className='btn bg-gray-200'><MdEdit /></button> */}
-                  <button className='btn bg-gray-200' onClick={() => {
-                    onDelete(i)
-                  }}><MdDelete /></button>
-                </div>
-              </td>
+              <th className='ui-table-head border border-gray-200' />
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody className='border-x border-b border-gray-200'>
+            {data.map((entries, i) => (
+              <tr key={`tbody-row-${i}`} className='ui-table-row border border-gray-200'>
+                {Object.values(entries).map((text, i) => (
+                  <td key={`tbody-data-${i}`} className='ui-table-data border border-gray-200'>{String(text)}</td>
+                ))}
+                <td className='ui-table-data border border-gray-200'>
+                  <div className='w-full h-full flex justify-around items-center'>
+                    {/* <button className='btn bg-gray-200'><MdEdit /></button> */}
+                    <button className='btn bg-gray-200' onClick={() => {
+                      onDelete(i)
+                    }}><MdDelete /></button>
+                  </div>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </RouteGuard>
     </div>
   )
 }

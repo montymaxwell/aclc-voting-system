@@ -10,6 +10,19 @@ export async function POST(request: Request) {
             data: { voted: true },
         });
 
+        votes.forEach(async v => {
+            await prisma.candidates.update({ 
+                where: {
+                    id: v.candidate
+                },
+                data: {
+                    votes: {
+                        increment: 1
+                    }
+                }
+            })
+        });
+
         return new Response(JSON.stringify({
             state: true
 
@@ -41,7 +54,6 @@ export async function GET(request: NextRequest) {
     else {
         try {
             const votes = await prisma.votes.findMany();
-            console.log(votes)
             return new Response(JSON.stringify(votes), { status: 200 });
 
         } catch (error) {

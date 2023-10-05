@@ -10,7 +10,7 @@ function AdminLayout({ children }: LayoutProps) {
   return (
     <div className="w-full h-full flex flex-col">
       <main className="flex-auto flex flex-row flex-nowrap">
-        <nav className=" w-24 bg-slate-800 text-white flex flex-col items-center">
+        <nav className="w-24 h-full fixed bg-slate-800 text-white flex flex-col items-center">
           <Link href='/users' className="link hover:bg-slate-900">
             <MdPerson />
             <span>Users</span>
@@ -37,7 +37,7 @@ function AdminLayout({ children }: LayoutProps) {
           </Link>
           <LogoutBtn />
         </nav>
-        <div className="flex-auto scroll-auto overflow-auto">
+        <div className="ml-24 flex-auto">
           {children}
         </div>
       </main>
