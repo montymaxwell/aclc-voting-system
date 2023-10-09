@@ -10,7 +10,7 @@ const LogoutBtn = () => {
       className="w-full py-3 text-red-500 mt-auto mb-5 text-3xl hover:bg-red-400/80 hover:text-white"
       onClick={() => {
         logout()
-        router.push('/')
+        router.replace('/')
       }}
     >
       <AiOutlineLogout className="mx-auto" />

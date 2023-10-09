@@ -6,10 +6,11 @@ export async function POST(request: NextRequest) {
     const { name, acronym }: Party = await request.json();
 
     try {
-        await prisma.party.create({ data: { name, acronym }});
+        const data = await prisma.party.create({ data: { name, acronym }});
         return new Response(JSON.stringify({ 
             state: true, 
-            data: 'Successfully created a new party'
+            message: 'Successfully created a new party',
+            data
 
         }), { status: 201 });
 

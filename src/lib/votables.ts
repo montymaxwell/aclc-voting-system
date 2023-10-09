@@ -38,40 +38,19 @@ export const Votables: { [Position: string]: VoteProps } = {
         maxVotable: 1,
         candidates: [],
     },
-
-    ABMRepresentative: {
-        label: "ABM Representative",
-        maxVotable: 2,
+    SGTA: {
+        label: 'Sergeant of Arms',
+        maxVotable: 1,
         candidates: [],
     },
-    GASRepresentative: {
-        label: "GAS Representative",
-        maxVotable: 2,
-        candidates: [],
+    Muse: {
+        label: 'Muse',
+        maxVotable: 1,
+        candidates: []
     },
-    HUMMSRepresentative: {
-        label: "HUMMS Representative",
-        maxVotable: 2,
-        candidates: [],
-    },
-    TVLRepresentative: {
-        label: "TVL Representative",
-        maxVotable: 2,
-        candidates: [],
-    },
-    BSERepresentative: {
-        label: "BSE Representative",
-        maxVotable: 2,
-        candidates: [],
-    },
-    BSITRepresentative: {
-        label: "BSIT Representative",
-        maxVotable: 2,
-        candidates: [],
-    },
-    ACTRepresentative: {
-        label: "ACT Representative",
-        maxVotable: 2,
-        candidates: [],
-    },
+    Escort: {
+        label: 'Escort',
+        maxVotable: 1,
+        candidates: []
+    }
 };

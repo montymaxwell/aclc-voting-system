@@ -18,10 +18,21 @@ async function getCandidates() {
         };
     });
 
-    const List: { [id: string]: VoteProps } = {};
+    const List: { [id: string]: any } = {
+        President: {},
+        VicePresident: {},
+        Secretary: {},
+        Treasurer: {},
+        Auditor: {},
+        BusinessManager: {},
+        PIO: {},
+        SGTA: {},
+        Muse: {},
+        Escort: {}
+    };
 
     Candidates.forEach((candidate) => {
-        if (List[candidate.position!] === undefined) {
+        if (List[candidate.position!].label === undefined) {
             List[candidate.position!] = {
                 label: Votables[candidate.position!].label,
                 maxVotable: Votables[candidate.position!].maxVotable,

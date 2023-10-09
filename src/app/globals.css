@@ -128,3 +128,7 @@
 pre {
   @apply w-auto
 }
+
+.modal-exit {
+  @apply hover:bg-gray-200 rounded-full px-3
+}

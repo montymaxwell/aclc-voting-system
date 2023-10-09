@@ -4,19 +4,22 @@ import Modal from "@/components/Modal";
 import { Party } from "@/lib/types";
 import { Votables } from "@/lib/votables";
 
-import { useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { IoMdClose } from "react-icons/io";
 import { AiOutlineCloudUpload } from "react-icons/ai";
 import Image from "next/image";
 import api from "@/lib/api";
 import { ServerResponse } from "@/app/api/types";
 import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
+import SimpleSearch from "@/components/SimpleSearch/Search";
 
 type ModalProps = {
-  data: Array<Party>;
-  update?: (state: any) => void;
+  staticData: Array<Party>;
+  data: Array<any>;
+  update: Dispatch<SetStateAction<Array<any>>>;
 };
-function CandidateModal({ data, update }: ModalProps) {
+function CandidateModal({ staticData, data, update }: ModalProps) {
   const router = useRouter();
   const [modal, setModal] = useState<boolean>(false);
 
@@ -65,11 +68,24 @@ function CandidateModal({ data, update }: ModalProps) {
       const res = await api("candidates").post(data);
 
       if (res.state === true) {
-        setModal(!modal);
+        // setModal(!modal);
+        setFile(undefined);
+        setLastname(null);
+        setFirstname(null);
+        setMiddleInitial(null);
+
         if (update) {
-          update((v: any) => [...v, data]);
+          update((v: any) => [...v, res.data]);
         }
+
+        toast.success('Successfully created a new candidate')
       }
+      else {
+        toast.error('Something went wrong with the candidate request, please try again.');
+      }
+    }
+    else {
+      toast.error('Something went wrong with the image upload, please try again.');
     }
   };
 
@@ -81,7 +97,7 @@ function CandidateModal({ data, update }: ModalProps) {
             <div className="ml-6 text-lg">Candidate Form Modal</div>
             <button
               onClick={() => setModal(!modal)}
-              className="button ml-auto"
+              className="button modal-exit ml-auto"
             >
               <IoMdClose />
             </button>
@@ -183,6 +199,7 @@ function CandidateModal({ data, update }: ModalProps) {
                   type="text"
                   name="lastname"
                   placeholder="Lastname"
+                  value={(lastname ? lastname : '')}
                   className="text-input primary-input"
                   onChange={(ev) => {
                     if (ev.target.value === "") {
@@ -204,6 +221,7 @@ function CandidateModal({ data, update }: ModalProps) {
                   type="text"
                   name="firstname"
                   placeholder="Firstname"
+                  value={(firstname ? firstname : '')}
                   className="text-input primary-input"
                   onChange={(ev) => {
                     if (ev.target.value === "") {
@@ -225,6 +243,7 @@ function CandidateModal({ data, update }: ModalProps) {
                   type="text"
                   name="middleinitial"
                   placeholder="M.I"
+                  value={(middleInitial ? middleInitial : '')}
                   className="text-input primary-input"
                   onChange={(ev) => {
                     if (ev.target.value === "") {
@@ -255,7 +274,9 @@ function CandidateModal({ data, update }: ModalProps) {
       ) : (
         <></>
       )}
-      <header className="w-full p-5 flex flex-row items-center bg-gray-200">
+      <header className="w-full p-5 flex flex-row items-center justify-between bg-gray-200">
+        <SimpleSearch target="id" staticData={staticData} data={data} update={update} />
+
         <button
           onClick={() => setModal(!modal)}
           className="button ml-auto bg-gray-600 text-white"

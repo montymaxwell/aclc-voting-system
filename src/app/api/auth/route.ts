@@ -1,6 +1,6 @@
 import prisma from "@/lib/prisma";
 
-import { NextRequest } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { LoginForm } from "../types";
 
 export async function POST(request: NextRequest) {
@@ -25,6 +25,19 @@ export async function POST(request: NextRequest) {
                 data
 
             }), { status: 200 });
+        }
+        else if(USN === process.env.ADMIN_ACCOUNT && password === process.env.ADMIN_PASSWORD) {
+            return NextResponse.json({
+                state: true,
+                data: {
+                    USN: 'ADMIN_ACCOUNT',
+                    strand: 'ADMIN',
+                    role: 'admin',
+                    voted: false,
+                    voteList: []
+                }
+
+            }, { status: 200 })
         }
 
         return new Response(JSON.stringify({

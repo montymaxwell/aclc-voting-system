@@ -1,5 +1,6 @@
 import Link from "next/link"
-import { MdBallot, MdBuildCircle, MdFlag, MdPeople, MdPerson } from "react-icons/md"
+import { MdBallot, MdBuildCircle, MdFlag, MdPeople, MdPerson, MdAssessment } from "react-icons/md"
+import { FaRankingStar } from 'react-icons/fa6';
 import LogoutBtn from "@/components/LogoutBtn"
 import { FaVoteYea } from "react-icons/fa"
 
@@ -31,10 +32,14 @@ function AdminLayout({ children }: LayoutProps) {
             <MdBallot />
             <span>Voting</span>
           </Link>
-          <Link href='/tools' className="link hover:bg-slate-900">
+          <Link href='/ranking' className="link hover:bg-slate-900">
+            <MdAssessment />
+            <span>Ranking</span>
+          </Link>
+          {/* <Link href='/tools' className="link hover:bg-slate-900">
             <MdBuildCircle />
             <span>Tools</span>
-          </Link>
+          </Link> */}
           <LogoutBtn />
         </nav>
         <div className="ml-24 flex-auto">

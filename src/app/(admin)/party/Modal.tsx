@@ -3,26 +3,37 @@
 import Modal from "@/components/Modal";
 import api from "@/lib/api";
 
-import { useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import { IoMdClose } from "react-icons/io";
+import { toast } from "react-toastify";
 
-function PartyModal() {
+function PartyModal({ update }: { update: Dispatch<SetStateAction<Array<any>>> }) {
   const [modal, setModal] = useState<boolean>(false);
   const [name, setName] = useState<string | null>(null);
   const [acronym, setAcronym] = useState<string | null>(null);
 
   const Submit = async () => {
     if (name === null) {
+      toast.error('Party Name cannot be empty');
       return;
     }
 
     if (acronym === null) {
+      toast.error('Party Acronym cannot be empty');
       return;
     }
 
     const res = await api("party").post({ name, acronym });
     if (res.state === true) {
-      setModal(!modal);
+      // setModal(!modal);
+      setName(null);
+      setAcronym(null);
+      update(v => [...v, res.data])
+      toast.success('Sucessfully added a new party');
+      return
+    }
+    else {
+      toast.success('Something went wrong with the request, please try again.');
     }
   };
 
@@ -34,7 +45,7 @@ function PartyModal() {
             <div className="ml-6 text-lg">Party Form Modal</div>
             <button
               onClick={() => setModal(!modal)}
-              className="button ml-auto"
+              className="button nodal-exit ml-auto"
             >
               <IoMdClose />
             </button>
@@ -52,6 +63,7 @@ function PartyModal() {
                   type="text"
                   name="partyname"
                   placeholder="Name"
+                  value={(name ? name : '')}
                   className="text-input primary-input"
                   onChange={(ev) => {
                     if (ev.target.value === "") {
@@ -73,6 +85,7 @@ function PartyModal() {
                   type="text"
                   name="partyAcronym"
                   placeholder="Acronym"
+                  value={(acronym ? acronym : '')}
                   className="text-input primary-input"
                   onChange={(ev) => {
                     if (ev.target.value === "") {

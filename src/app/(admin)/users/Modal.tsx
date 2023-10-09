@@ -3,11 +3,13 @@
 import Modal from "@/components/Modal"
 import { IoMdClose } from 'react-icons/io'
 
-import { useState } from "react"
+import { Dispatch, SetStateAction, useState } from "react"
 import { Strands } from "@/lib/votables"
 import api from "@/lib/api"
+import { toast } from "react-toastify"
+import SimpleSearch from "@/components/SimpleSearch/Search"
 
-function UserModal() {
+function UserModal({ staticData, data, update }: { staticData: Array<any>, data: Array<any>, update: Dispatch<SetStateAction<Array<any>>> }) {
   const [modal, setModal] = useState<boolean>(false)
   const [role, setRole] = useState<string>('user')
   const [strand, setStrand] = useState<string | null>(Strands[0])
@@ -18,6 +20,10 @@ function UserModal() {
   const [middleInitial, setMiddleInitial] = useState<string | null>(null)
 
   const Submit = async () => {
+    if (role === 'admin') {
+      setStrand('admin')
+    }
+
     const res = await api('users').post({
       USN,
       password,
@@ -28,9 +34,22 @@ function UserModal() {
       middleInitial,
     })
 
-    console.log(res)
-    if(res.state === true) {
-      setModal(!modal);
+    if (res.state === true) {
+      // setModal(!modal);
+      setUSN(null);
+      setPassword(null);
+      setLastname(null);
+      setFirstname(null);
+      setMiddleInitial(null);
+
+      toast.success(res.message);
+      update(v => [...v, res.data])
+    }
+    else {
+      toast.error(res.message)
+      if (res.data) {
+        console.log(res.data);
+      }
     }
   }
 
@@ -42,7 +61,7 @@ function UserModal() {
             <div className="ml-6 text-lg">User Form Modal</div>
             <button
               onClick={() => setModal(!modal)}
-              className="button ml-auto"
+              className="button modal-exit ml-auto"
             ><IoMdClose /></button>
           </header>
 
@@ -62,19 +81,23 @@ function UserModal() {
                   <option value="admin">Admin</option>
                 </select>
               </div>
-              <div className="w-28">
-                <label htmlFor="strand" className='form-label mx-3 my-2'>Strand</label>
-                <select
-                  id="strand"
-                  name="strand"
-                  className="text-input"
-                  onChange={(ev) => {
-                    setStrand(ev.target.value)
-                  }}
-                >
-                  {Strands.map((v) => (<option key={v} value={v}>{v}</option>))}
-                </select>
-              </div>
+              {role === 'user' ?
+                <div className="w-28">
+                  <label htmlFor="strand" className='form-label mx-3 my-2'>Strand</label>
+                  <select
+                    id="strand"
+                    name="strand"
+                    className="text-input"
+                    onChange={(ev) => {
+                      setStrand(ev.target.value)
+                    }}
+                  >
+                    {Strands.map((v) => (<option key={v} value={v}>{v}</option>))}
+                  </select>
+                </div>
+                :
+                <></>
+              }
             </div>
 
             <div className="w-full flex flex-row my-4 px-5">
@@ -84,6 +107,7 @@ function UserModal() {
                   type="text"
                   name='USN'
                   placeholder='USN'
+                  value={(USN ? USN : '')}
                   className='text-input primary-input'
                   onChange={(ev) => {
                     if (ev.target.value === '') {
@@ -101,6 +125,7 @@ function UserModal() {
                   type="text"
                   name='password'
                   placeholder='Password'
+                  value={(password ? password : '')}
                   className='text-input primary-input'
                   onChange={(ev) => {
                     if (ev.target.value === '') {
@@ -121,6 +146,7 @@ function UserModal() {
                   type="text"
                   name='lastname'
                   placeholder='Lastname'
+                  value={(lastname ? lastname : '')}
                   className='text-input primary-input'
                   onChange={(ev) => {
                     if (ev.target.value === '') {
@@ -138,6 +164,7 @@ function UserModal() {
                   type="text"
                   name='firstname'
                   placeholder='Firstname'
+                  value={(firstname ? firstname : '')}
                   className='text-input primary-input'
                   onChange={(ev) => {
                     if (ev.target.value === '') {
@@ -155,6 +182,7 @@ function UserModal() {
                   type="text"
                   name='middleinitial'
                   placeholder='M.I'
+                  value={(middleInitial ? middleInitial : '')}
                   className='text-input primary-input'
                   onChange={(ev) => {
                     if (ev.target.value === '') {
@@ -182,6 +210,7 @@ function UserModal() {
         </Modal>
         : <></>}
       <header className="w-full p-5 flex flex-row items-center bg-gray-200">
+        <SimpleSearch target='USN' staticData={staticData} data={data} update={update} />
         <button
           onClick={() => setModal(!modal)}
           className="button ml-auto bg-gray-600 text-white"

@@ -6,7 +6,7 @@ import CandidateModal from "./Modal";
 import Candidates from "./Candidates";
 
 async function CandidatesPage() {
-  const candidates = await prisma.candidates.findMany();
+  const candidates = await prisma.candidates.findMany({ where: { marked: false } });
   const Party = await prisma.party.findMany();
 
   return (

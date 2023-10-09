@@ -5,7 +5,7 @@ import { Votables } from '@/lib/votables'
 import Image from 'next/image'
 
 async function getCandidates() {
-  const Candidates = await prisma.candidates.findMany()
+  const Candidates = await prisma.candidates.findMany({ where: { marked: false } })
 
   const positions = [
     "President",
@@ -15,13 +15,9 @@ async function getCandidates() {
     "Auditor",
     "Business Manager",
     "Public Information Officer (P.I.O)",
-    "ABM Representative",
-    "GAS Representative",
-    "HUMMS Representative",
-    "TVL Representative",
-    "BSIT Representative",
-    "BSE Representative",
-    "ACT Representative",
+    "Sergeant of Arms",
+    "Muse",
+    "Escort"
   ]
 
   const Collection: { [party: string]: Array<Candidate> } = {}

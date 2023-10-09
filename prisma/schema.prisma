@@ -23,6 +23,7 @@ model users {
   strand         String
   voted          Boolean?  @default(false)
   voteList       Json[]    @db.Json
+  marked         Boolean   @default(false)
   createdAt      DateTime? @default(now()) @db.Timestamptz(6)
 
   @@map("users")
@@ -37,12 +38,14 @@ model candidates {
   party          String
   position       String
   votes          Int?      @default(0)
+  marked         Boolean   @default(false)
   createdAt      DateTime? @default(now()) @db.Timestamptz(6)
 }
 
 model votes {
-  id        Int       @id @default(autoincrement())
-  createdAt DateTime? @default(now()) @db.Timestamptz(6)
-  USN       String
-  candidate String
+  id         Int       @id @default(autoincrement())
+  marked     Boolean   @default(false)
+  createdAt  DateTime? @default(now()) @db.Timestamptz(6)
+  USN        String
+  candidates String[]
 }
