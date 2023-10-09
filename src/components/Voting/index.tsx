@@ -72,6 +72,7 @@ function Voting({ data }: Props) {
 
       if (res.state === true) {
         toast.success('Successfully voted!');
+        User.logout();
       }
       else {
         toast.error(res.message);

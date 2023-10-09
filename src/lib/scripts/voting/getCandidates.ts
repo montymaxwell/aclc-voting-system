@@ -1,5 +1,4 @@
 import prisma from "@/lib/prisma";
-import { VoteProps } from "@/lib/types";
 import { Votables } from "@/lib/votables";
 
 async function getCandidates() {

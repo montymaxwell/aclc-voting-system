@@ -132,3 +132,7 @@ pre {
 .modal-exit {
   @apply hover:bg-gray-200 rounded-full px-3
 }
+
+.rank-card {
+  @apply w-full p-2 my-1 rounded-full flex flex-row items-center
+}

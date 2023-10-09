@@ -38,6 +38,5 @@ next-env.d.ts
 /public/files
 /public/images
 /tools/data
-/src/app/(admin)/ranking
 /prisma/migrations
 /prisma/old_schema.prisma
