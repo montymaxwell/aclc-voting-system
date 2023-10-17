@@ -65,18 +65,20 @@ function Voting({ data }: Props) {
         });
       });
 
-      const res = await api('voting').post({
-        USN: User.userInfo.usn,
-        votes: serializedVotes,
-      });
+      User.addVotes(serializedVotes);
 
-      if (res.state === true) {
-        toast.success('Successfully voted!');
-        User.logout();
-      }
-      else {
-        toast.error(res.message);
-      }
+      // const res = await api('voting').post({
+      //   USN: User.userInfo.usn,
+      //   votes: serializedVotes,
+      // });
+
+      // if (res.state === true) {
+      //   toast.success('Successfully voted!');
+      //   User.logout();
+      // }
+      // else {
+      //   toast.error(res.message);
+      // }
     }
   }
 

@@ -4,7 +4,6 @@ import Modal from "@/components/Modal"
 import { IoMdClose } from 'react-icons/io'
 
 import { Dispatch, SetStateAction, useState } from "react"
-import { Strands } from "@/lib/votables"
 import api from "@/lib/api"
 import { toast } from "react-toastify"
 import SimpleSearch from "@/components/SimpleSearch/Search"
@@ -12,12 +11,10 @@ import SimpleSearch from "@/components/SimpleSearch/Search"
 function UserModal({ staticData, data, update }: { staticData: Array<any>, data: Array<any>, update: Dispatch<SetStateAction<Array<any>>> }) {
   const [modal, setModal] = useState<boolean>(false)
   const [role, setRole] = useState<string>('user')
-  const [strand, setStrand] = useState<string | null>(Strands[0])
+  const [strand, setStrand] = useState<string | null>(null)
   const [USN, setUSN] = useState<string | null>(null)
   const [password, setPassword] = useState<string | null>(null)
-  const [lastname, setLastname] = useState<string | null>(null)
-  const [firstname, setFirstname] = useState<string | null>(null)
-  const [middleInitial, setMiddleInitial] = useState<string | null>(null)
+  const [name, setName] = useState<string | null>(null)
 
   const Submit = async () => {
     if (role === 'admin') {
@@ -29,18 +26,14 @@ function UserModal({ staticData, data, update }: { staticData: Array<any>, data:
       password,
       role,
       strand,
-      lastname,
-      firstname,
-      middleInitial,
+      name,
     })
 
     if (res.state === true) {
       // setModal(!modal);
       setUSN(null);
       setPassword(null);
-      setLastname(null);
-      setFirstname(null);
-      setMiddleInitial(null);
+      setName(null);
 
       toast.success(res.message);
       update(v => [...v, res.data])
@@ -84,16 +77,21 @@ function UserModal({ staticData, data, update }: { staticData: Array<any>, data:
               {role === 'user' ?
                 <div className="w-28">
                   <label htmlFor="strand" className='form-label mx-3 my-2'>Strand</label>
-                  <select
-                    id="strand"
-                    name="strand"
-                    className="text-input"
+                  <input
+                    type="text"
+                    name='Strand'
+                    placeholder='Strand'
+                    value={(strand ? strand : '')}
+                    className='text-input primary-input'
                     onChange={(ev) => {
-                      setStrand(ev.target.value)
+                      if (ev.target.value === '') {
+                        setStrand(null);
+                      }
+                      else {
+                        setStrand(ev.target.value)
+                      }
                     }}
-                  >
-                    {Strands.map((v) => (<option key={v} value={v}>{v}</option>))}
-                  </select>
+                  />
                 </div>
                 :
                 <></>
@@ -140,56 +138,20 @@ function UserModal({ staticData, data, update }: { staticData: Array<any>, data:
             </div>
 
             <div className="w-full flex flex-row my-4 px-5">
-              <div className="flex-auto pr-2">
-                <label htmlFor="lastname" className='form-label mx-3 my-2'>Lastname</label>
+              <div className="flex-auto">
+                <label htmlFor="name" className='form-label mx-3 my-2'>Name</label>
                 <input
                   type="text"
-                  name='lastname'
-                  placeholder='Lastname'
-                  value={(lastname ? lastname : '')}
+                  name='name'
+                  placeholder='Name'
+                  value={(name ? name : '')}
                   className='text-input primary-input'
                   onChange={(ev) => {
                     if (ev.target.value === '') {
-                      setLastname(null);
+                      setName(null);
                     }
                     else {
-                      setLastname(ev.target.value);
-                    }
-                  }}
-                />
-              </div>
-              <div className="flex-auto pl-2">
-                <label htmlFor="firstname" className='form-label mx-3 my-2'>Firstname</label>
-                <input
-                  type="text"
-                  name='firstname'
-                  placeholder='Firstname'
-                  value={(firstname ? firstname : '')}
-                  className='text-input primary-input'
-                  onChange={(ev) => {
-                    if (ev.target.value === '') {
-                      setFirstname(null);
-                    }
-                    else {
-                      setFirstname(ev.target.value);
-                    }
-                  }}
-                />
-              </div>
-              <div className="w-20 pl-2">
-                <label htmlFor="middleinitial" className='form-label mx-3 my-2'>M.I</label>
-                <input
-                  type="text"
-                  name='middleinitial'
-                  placeholder='M.I'
-                  value={(middleInitial ? middleInitial : '')}
-                  className='text-input primary-input'
-                  onChange={(ev) => {
-                    if (ev.target.value === '') {
-                      setMiddleInitial(null);
-                    }
-                    else {
-                      setMiddleInitial(ev.target.value);
+                      setName(ev.target.value);
                     }
                   }}
                 />
@@ -210,10 +172,13 @@ function UserModal({ staticData, data, update }: { staticData: Array<any>, data:
         </Modal>
         : <></>}
       <header className="w-full p-5 flex flex-row items-center bg-gray-200">
-        <SimpleSearch target='USN' staticData={staticData} data={data} update={update} />
+        <SimpleSearch label="USN" target='USN' staticData={staticData} data={data} update={update} />
+        {/* <div className="flex-auto flex flex-row justify-end px-2">
+          <button className="button ml-auto bg-gray-600 text-white hover:bg-gray-800">Import</button>
+        </div> */}
         <button
           onClick={() => setModal(!modal)}
-          className="button ml-auto bg-gray-600 text-white"
+          className="button ml-auto bg-gray-600 text-white hover:bg-gray-800"
         >Create User</button>
       </header>
     </>

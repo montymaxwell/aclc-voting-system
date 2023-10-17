@@ -3,6 +3,11 @@ import { MdBallot, MdBuildCircle, MdFlag, MdPeople, MdPerson, MdAssessment } fro
 import { FaRankingStar } from 'react-icons/fa6';
 import LogoutBtn from "@/components/LogoutBtn"
 import { FaVoteYea } from "react-icons/fa"
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: 'Admin | ACLC Voting System'
+}
 
 type LayoutProps = {
   children: React.ReactNode
@@ -36,10 +41,10 @@ function AdminLayout({ children }: LayoutProps) {
             <MdAssessment />
             <span>Ranking</span>
           </Link>
-          {/* <Link href='/tools' className="link hover:bg-slate-900">
+          <Link href='/tools' className="link hover:bg-slate-900">
             <MdBuildCircle />
             <span>Tools</span>
-          </Link> */}
+          </Link>
           <LogoutBtn />
         </nav>
         <div className="ml-24 flex-auto">

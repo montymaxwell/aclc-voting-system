@@ -4,6 +4,11 @@ import { Prisma } from "@prisma/client";
 import CandidateModal from "./Modal";
 
 import Candidates from "./Candidates";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: 'Candidates | ACLC Voting System'
+}
 
 async function CandidatesPage() {
   const candidates = await prisma.candidates.findMany({ where: { marked: false } });

@@ -19,10 +19,8 @@ export type User = {
 
 // Candidate Types
 export type Candidate = {
-    id: string;
-    firstname: string;
-    lastname: string;
-    middleInitial: string;
+    id: number;
+    name: string,
     icon: string | null;
     party: string;
     position: string;

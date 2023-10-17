@@ -1,5 +1,10 @@
 import prisma from "@/lib/prisma"
 import Party from "./party"
+import { Metadata } from "next"
+
+export const metadata: Metadata = {
+  title: 'Party | ACLC Voting System'
+}
 
 async function PartyPage() {
   const party = await prisma.party.findMany()

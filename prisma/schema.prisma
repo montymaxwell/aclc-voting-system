@@ -17,9 +17,7 @@ model users {
   USN            String    @id
   password       String
   role           String    @default(dbgenerated("USER"))
-  firstname      String
-  lastname       String
-  middleInitial  String
+  name           String
   strand         String
   voted          Boolean?  @default(false)
   voteList       Json[]    @db.Json
@@ -30,10 +28,8 @@ model users {
 }
 
 model candidates {
-  id             String    @id
-  firstname      String
-  lastname       String
-  middleInitial  String
+  id             Int       @id @default(autoincrement())
+  name           String
   icon           String?
   party          String
   position       String

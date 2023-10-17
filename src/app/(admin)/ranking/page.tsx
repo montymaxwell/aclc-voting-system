@@ -31,15 +31,18 @@ async function RankingPage() {
   const voters = await prisma.users.count()
 
   return (
-    <div className="w-full h-full bg-gray-100">
+    <div className="w-full h-full flex flex-col bg-gray-100">
+      <div className="px-16 pt-10 pb-16">Voters: {voters}</div>
       {/* <pre>{JSON.stringify(Candidates, null, 2)}</pre> */}
-      {Object.keys(Candidates).map((key) => (
-        <Ranking key={key}
-          voters={voters}
-          data={Candidates[key]}
-          label={Votables[key].label}
-        />
-      ))}
+      <div className="flex-auto">
+        {Object.keys(Candidates).map((key) => (
+          <Ranking key={key}
+            voters={voters}
+            data={Candidates[key]}
+            label={Votables[key].label}
+          />
+        ))}
+      </div>
     </div>
   )
 }

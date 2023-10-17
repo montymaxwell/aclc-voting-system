@@ -83,7 +83,7 @@ function Candidates({ data }: Props) {
       key={`${String(candidate.position)}-${index}`}
     >
       <Card
-        key={candidate.firstname}
+        key={candidate.id}
         action={() => Action(index)}
         data={{
           ...candidate,
@@ -128,7 +128,7 @@ function Card({ data, action }: { data: CandidateType; action?: () => void }) {
       <div className="flex-auto pl-3">
         {/* <h6 className="font-light mb-2 text-gray-500">Something</h6> */}
         <h1 className="text-1xl font-medium ">
-          {`${user.firstname} ${(user.middleInitial !== ' ' ? `${user.middleInitial}.` : '')} ${user.lastname}`}
+          {data.name}
         </h1>
         <h3 className="font-light text-lg text-gray-400">
           {displayPosition}

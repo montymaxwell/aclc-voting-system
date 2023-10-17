@@ -3,9 +3,8 @@ const xlsx = require('xlsx');
 
 const base_obj = {
     USN: '',
-    firstname: '',
-    lastname: '',
-    middleInitial: '',
+    name: '',
+    strand: '',
 }
 
 declare type Data = {
@@ -31,57 +30,56 @@ export default function excel(path: string) {
             sheet[SheetName] = [];
             let obj: any = {}
             Object.keys(worksheet).forEach((key, i) => {
-                if(key.startsWith('B')) {
-                    if(worksheet[key].v !== 'LAST NAME') {
-                        if(typeof worksheet[key].v === 'string') {
-                            obj.lastname = worksheet[key].v;
-                        }
+                if(key.startsWith('A') && !key.startsWith('A1')) {
+                    if(typeof worksheet[key].v === 'string') {
+                        obj.name = worksheet[key].v;
+                    }
+                    if(worksheet[key].v !== 'NAME OF STUDENT') {
                     }
                 }
-                else if(key.startsWith('C')) {
-                    if(worksheet[key].v !== 'FIRST NAME') {
-                        if(typeof worksheet[key].v === 'string') {
-                            obj.firstname = worksheet[key].v;
-                        }
+                else if(key.startsWith('B') && !key.startsWith('B1')) {
+                    if(typeof worksheet[key].v === 'string') {
+                        obj.strand = worksheet[key].v;
+                    }
+                    if(worksheet[key].v !== 'STRAND') {
                     }
                 }
-                else if(key.startsWith('D')) {
-                    if(worksheet[key].v !== 'M.I') {
-                        if(typeof worksheet[key].v === 'string') {
-                            obj.middleInitial = worksheet[key].v;
-                        }
+                else if(key.startsWith('C') && !key.startsWith('C1')) {
+                    // console.log(`${key} :  ${typeof worksheet[key].v} : ${worksheet[key].v}`)
+                    if(typeof worksheet[key].v === 'number') {
+                        obj.USN = String(worksheet[key].v);
+                        // console.log(Object.values(sheet[SheetName]).find((v: any) => v.USN === String(worksheet[key].v)))
                     }
-                }
-                else if(key.startsWith('F')) {
-                    if(worksheet[key].v !== 'USN') {
-                        if(typeof worksheet[key].v === 'number') {
-                            obj.USN = String(worksheet[key].v);
-                        }
+                    else if(typeof worksheet[key].v === 'string') {
+                        const USN = worksheet[key].v.replace('\n', '').trim();
+                        obj.USN = USN;
+
+                        // Object.values(sheet[SheetName]).find((v: any) => v.USN === USN)
                     }
-                }
-                else if(Object.keys(obj).length === Object.keys(base_obj).length) {
-                    if(SheetName === 'Sheet1') {
-                        obj.strand = 'TVL';
-                    }
-                    else if(SheetName.includes('BSIT')) {
-                        obj.strand = SheetName.slice(0, 4);
-                    }
-                    else if(SheetName.includes('ACT') || SheetName.includes('BSE')) {
-                        obj.strand = SheetName.slice(0, 3);
-                    }
-                    else {
-                        obj.strand = getShortStrand(SheetName);
-                    }
+
 
                     obj.role = 'user';
                     obj.password = '123456'
+                    // console.log(obj);
                     sheet[SheetName].push({...obj});
                     obj = {};
+                    if(worksheet[key].v !== 'USN') {
+                        // console.log(typeof worksheet[key].v)
+
+                    }
                 }
+                // else if(Object.keys(obj).length > 0) {
+                //     obj.role = 'user';
+                //     obj.password = '123456'
+                //     console.log(obj);
+                //     sheet[SheetName].push({...obj});
+                //     obj = {};
+                // }
             });
 
         })
     
+        // console.log(sheet)
     
         return sheet;
     

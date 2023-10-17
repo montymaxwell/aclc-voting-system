@@ -2,7 +2,12 @@ import RouteGuard from '@/app/(admin)/RouteGuard'
 import prisma from '@/lib/prisma'
 import { Candidate } from '@/lib/types'
 import { Votables } from '@/lib/votables'
+import { Metadata } from 'next'
 import Image from 'next/image'
+
+export const metadata: Metadata = {
+  title: 'Voting | ACLC Voting System'
+}
 
 async function getCandidates() {
   const Candidates = await prisma.candidates.findMany({ where: { marked: false } })
@@ -68,7 +73,7 @@ async function VotesPage() {
                   </div>
                   <div className="flex-auto mx-4">
                     <div className='text-sm tracking-wide text-gray-500'>{Votables[candidate.position].label}</div>
-                    <div className='text-xl'>{`${candidate.firstname} ${(candidate.middleInitial !== ' ' ? `${candidate.middleInitial}.` : '')} ${candidate.lastname}`}</div>
+                    <div className='text-xl'>{candidate.name}</div>
                     <div className='text-base text-blue-500'>{candidate.party}</div>
                   </div>
                   <div className="w-auto p-3 flex flex-col justify-center items-center">

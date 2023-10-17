@@ -30,9 +30,7 @@ function CandidateModal({ staticData, data, update }: ModalProps) {
     data.length > 0 ? data[0].name : null
   );
   const [position, setPosition] = useState<string>("President");
-  const [lastname, setLastname] = useState<string | null>(null);
-  const [firstname, setFirstname] = useState<string | null>(null);
-  const [middleInitial, setMiddleInitial] = useState<string | null>(null);
+  const [name, setName] = useState<string | null>(null);
 
   useEffect(() => {
     if (file === undefined) return;
@@ -57,22 +55,17 @@ function CandidateModal({ staticData, data, update }: ModalProps) {
 
     if (image.state === true) {
       const data = {
-        id: `${firstname} ${middleInitial}. ${lastname}`,
         icon: `/images/${image.data}`,
         party,
         position,
-        firstname,
-        lastname,
-        middleInitial,
+        name,
       };
       const res = await api("candidates").post(data);
 
       if (res.state === true) {
         // setModal(!modal);
         setFile(undefined);
-        setLastname(null);
-        setFirstname(null);
-        setMiddleInitial(null);
+        setName(null);
 
         if (update) {
           update((v: any) => [...v, res.data]);
@@ -190,66 +183,22 @@ function CandidateModal({ staticData, data, update }: ModalProps) {
             <div className="w-full flex flex-row my-4 px-5">
               <div className="flex-auto pr-2">
                 <label
-                  htmlFor="lastname"
+                  htmlFor="name"
                   className="form-label mx-3 my-2"
                 >
-                  Lastname
+                  Name
                 </label>
                 <input
                   type="text"
-                  name="lastname"
-                  placeholder="Lastname"
-                  value={(lastname ? lastname : '')}
+                  name="name"
+                  placeholder="Name"
+                  value={(name ? name : '')}
                   className="text-input primary-input"
                   onChange={(ev) => {
                     if (ev.target.value === "") {
-                      setLastname(null);
+                      setName(null);
                     } else {
-                      setLastname(ev.target.value);
-                    }
-                  }}
-                />
-              </div>
-              <div className="flex-auto pl-2">
-                <label
-                  htmlFor="firstname"
-                  className="form-label mx-3 my-2"
-                >
-                  Firstname
-                </label>
-                <input
-                  type="text"
-                  name="firstname"
-                  placeholder="Firstname"
-                  value={(firstname ? firstname : '')}
-                  className="text-input primary-input"
-                  onChange={(ev) => {
-                    if (ev.target.value === "") {
-                      setFirstname(null);
-                    } else {
-                      setFirstname(ev.target.value);
-                    }
-                  }}
-                />
-              </div>
-              <div className="w-20 pl-2">
-                <label
-                  htmlFor="middleinitial"
-                  className="form-label mx-3 my-2"
-                >
-                  M.I
-                </label>
-                <input
-                  type="text"
-                  name="middleinitial"
-                  placeholder="M.I"
-                  value={(middleInitial ? middleInitial : '')}
-                  className="text-input primary-input"
-                  onChange={(ev) => {
-                    if (ev.target.value === "") {
-                      setMiddleInitial(null);
-                    } else {
-                      setMiddleInitial(ev.target.value);
+                      setName(ev.target.value);
                     }
                   }}
                 />
@@ -275,7 +224,7 @@ function CandidateModal({ staticData, data, update }: ModalProps) {
         <></>
       )}
       <header className="w-full p-5 flex flex-row items-center justify-between bg-gray-200">
-        <SimpleSearch target="id" staticData={staticData} data={data} update={update} />
+        <SimpleSearch label="ID" target="id" staticData={staticData} data={data} update={update} />
 
         <button
           onClick={() => setModal(!modal)}

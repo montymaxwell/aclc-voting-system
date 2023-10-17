@@ -35,8 +35,7 @@ function Ranking({ label, data, voters }: Props) {
             <div className="mr-10 text-1xl text-gray-400">#{i + 1}</div>
             <div className="flex-auto">
               <div className="flex flex-row gap-2 text-2xl items-center">
-                <p>{candidate.firstname}</p>
-                <p>{candidate.lastname}</p>
+                <p>{candidate.name}</p>
                 <p className="text-base">({candidate.party})</p>
               </div>
               <div className="flex flex-row gap-2 items-center">

@@ -2,12 +2,13 @@ import { Dispatch, SetStateAction, useEffect, useState } from 'react'
 
 type SearchProps = {
   target: 'USN' | 'id',
+  label: string
   staticData: Array<any>,
   data: Array<any>
   update: Dispatch<SetStateAction<Array<any>>>
 }
 
-function SimpleSearch({ target, staticData, data, update }: SearchProps) {
+function SimpleSearch({ target, label, staticData, data, update }: SearchProps) {
   console.log(data)
 
   const [value, setValue] = useState<string>('')
@@ -47,7 +48,8 @@ function SimpleSearch({ target, staticData, data, update }: SearchProps) {
 
   return (
     <div className='w-1/5'>
-      <input type="text" name='searchbar' onChange={(ev => setValue(ev.target.value))} className='text-input' />
+      <div className="w-full mx-2 text-xs mb-1">{label}</div>
+      <input type="text" name='searchbar' placeholder={label} onChange={(ev => setValue(ev.target.value))} className='text-input' />
     </div>
   )
 }
