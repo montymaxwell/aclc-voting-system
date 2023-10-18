@@ -9,6 +9,9 @@ const inter = Inter({ subsets: ['latin'] })
 export const metadata: Metadata = {
   title: 'ACLC Voting System',
   description: 'a simple voting system',
+  icons: {
+    icon: './favicon.ico'
+  }
 }
 
 export default function RootLayout({

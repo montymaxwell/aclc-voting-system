@@ -11,6 +11,7 @@ import { useUserStore } from '@/lib/UserStore'
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import BeatLoader from "react-spinners/BeatLoader";
+import Image from 'next/image'
 
 function Login() {
   const router = useRouter()
@@ -63,8 +64,11 @@ function Login() {
   return (
     <div className="w-full flex flex-col">
       <div className='w-full my-8 text-center'>
-        <h1 className='text-6xl font-bold text-blue-900'>ACLC</h1>
-        <h2 className='text-2xl font-semibold text-blue-900'>College of Daet</h2>
+        <div className="w-auto my-3">
+          <Image src='/aclclogo.png' className='mx-auto' alt='aclclogo' width={120} height={120} />
+        </div>
+        <h1 className='text-7xl font-bold text-blue-900'>ACLC</h1>
+        <h2 className='text-xl font-semibold text-blue-900'>College of Commonwealth</h2>
         <h6 className='text-lg mt-2'>SSC Voting System</h6>
       </div>
       <div className='w-full flex flex-col my-2 px-5'>
@@ -108,6 +112,9 @@ function Login() {
           "Login"
         )}</button>
       </div>
+      {/* <footer className='w-full mt-10 mx-5 text-gray-500'>
+        <div>Hello</div>
+      </footer> */}
     </div>
   )
 }
