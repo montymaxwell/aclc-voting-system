@@ -29,7 +29,7 @@ function Votes({ data }: { data: Array<any> }) {
       {auth === true ?
         <>
           <div className="w-full p-5 bg-gray-200">
-            <SimpleSearch label="ID" target="USN" staticData={data} data={votes} update={setVotes} />
+            <SimpleSearch label="USN" target="USN" staticData={data} data={votes} update={setVotes} />
           </div>
           <Table
             update={setVotes}

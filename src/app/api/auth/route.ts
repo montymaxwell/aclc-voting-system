@@ -7,26 +7,7 @@ export async function POST(request: NextRequest) {
     const { USN, password }: LoginForm = await request.json();
 
     try {
-        const user = await prisma.users.findUnique({ where: { USN, password }});
-        if(user !== null) {
-            const { password, ...data } = user;
-
-            if(data.voted === true) {
-                return new Response(JSON.stringify({
-                    state: false,
-                    message: 'User has already voted',
-    
-                }), { status: 200 });
-            }
-
-            return new Response(JSON.stringify({
-                state: true,
-                message: 'User Authenticated',
-                data
-
-            }), { status: 200 });
-        }
-        else if(USN === process.env.ADMIN_ACCOUNT && password === process.env.ADMIN_PASSWORD) {
+        if(USN === process.env.ADMIN_ACCOUNT && password === process.env.ADMIN_PASSWORD) {
             return NextResponse.json({
                 state: true,
                 data: {
@@ -38,6 +19,33 @@ export async function POST(request: NextRequest) {
                 }
 
             }, { status: 200 })
+        }
+        else {
+            const user = await prisma.users.findUnique({ 
+                where: {
+                    USN, 
+                    password,
+                    NOT: { marked: true }
+                }
+            });
+            if(user !== null) {
+                const { password, ...data } = user;
+    
+                if(data.voted === true) {
+                    return new Response(JSON.stringify({
+                        state: false,
+                        message: 'User has already voted',
+        
+                    }), { status: 200 });
+                }
+    
+                return new Response(JSON.stringify({
+                    state: true,
+                    message: 'User Authenticated',
+                    data
+    
+                }), { status: 200 });
+            }
         }
 
         return new Response(JSON.stringify({

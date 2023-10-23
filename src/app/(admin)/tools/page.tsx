@@ -4,11 +4,26 @@ import { useEffect, useState } from "react"
 import { AiOutlineCloudUpload } from "react-icons/ai"
 import { ServerResponse } from "@/app/api/types"
 import { BsFillSendCheckFill } from "react-icons/bs"
-import RouteGuard from "@/app/(admin)/RouteGuard"
+import { useUserStore } from "@/lib/UserStore"
+import { useRouter } from "next/navigation"
 
 function ToolsPage() {
   const [file, setFile] = useState<File>()
   const [content, setContent] = useState<any>()
+
+  const account = useUserStore()
+  const router = useRouter()
+  const [auth, setAuth] = useState<boolean>(false)
+
+  useEffect(() => {
+    if (account.userInfo.usn !== "" || account.userInfo.role !== "user") {
+      setAuth(true);
+    }
+    else {
+      setAuth(false);
+      router.replace('/unauthorized');
+    }
+  }, [auth, account.userInfo.usn, account.userInfo.role, router])
 
   const Submit = async () => {
     if (content) {
@@ -19,7 +34,7 @@ function ToolsPage() {
 
       console.log(Collection);
 
-      const res: ServerResponse = await (await fetch('/api/tools/candidates', {
+      const res: ServerResponse = await (await fetch('/api/tools/users', {
         method: 'POST',
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(Collection)
@@ -58,63 +73,64 @@ function ToolsPage() {
 
   return (
     <div>
-      <RouteGuard>
-        <div className="w-full h-1/6 bg-gray-100 flex justify-center items-center">
-          {/* <textarea name="" id="" cols={30} rows={10}></textarea> */}
-          <label
-            htmlFor="icon"
-            className="w-full h-full z-10 bg-gray-300 rounded-md flex justify-center items-center"
-          >
-            <AiOutlineCloudUpload className="text-4xl text-white" />
-          </label>
-          <input
-            type="file"
-            name="icon"
-            id="icon"
-            className="hidden"
-            onChange={(ev) =>
-              setFile(ev.target.files?.[0])
-            }
-          />
-        </div>
-        <div className="w-full flex flex-row flex-wrap">
-          {content ?
-            Object.keys(content).map((v: any, i: number) => (
-              <div key={i} className="w-1/3">
-                <div>{v}</div>
-                {/* <pre>{JSON.stringify(content[v], null, 2)}</pre> */}
-                <textarea
-                  name=""
-                  id=""
-                  cols={30}
-                  rows={40}
-                  contentEditable={true}
-                  defaultValue={JSON.stringify(content[v], null, 2)}
-                  onChange={(e) => {
-                    const newContent = content;
-
-                    newContent[v] = JSON.parse(e.target.value);
-                    setContent(newContent);
-                    console.log(JSON.stringify(content));
-                  }}
-                />
-              </div>
-            ))
-            :
-            undefined
+      <div className="w-full h-1/6 bg-gray-100 flex justify-center items-center">
+        {/* <textarea name="" id="" cols={30} rows={10}></textarea> */}
+        <label
+          htmlFor="icon"
+          className="w-full h-full z-10 bg-gray-300 rounded-md flex justify-center items-center"
+        >
+          <AiOutlineCloudUpload className="text-4xl text-white" />
+        </label>
+        <input
+          type="file"
+          name="icon"
+          id="icon"
+          className="hidden"
+          onChange={(ev) =>
+            setFile(ev.target.files?.[0])
           }
-          <button
-            onClick={Submit}
-            className={`fixed z-10 bottom-8 right-5 w-20 h-20 p-5 bg-indigo-400 text-white rounded-full flex justify-center items-center`}
-          >
-            <div className="w-full h-full flex justify-center items-center">
-              <BsFillSendCheckFill className="text-4xl -ml-1.5 -mb-1 align-middle" />
+        />
+      </div>
+      <div className="w-full flex flex-row flex-wrap">
+        {content ?
+          Object.keys(content).map((v: any, i: number) => (
+            <div key={i} className="w-1/3">
+              <div>{v}</div>
+              {/* <pre>{JSON.stringify(content[v], null, 2)}</pre> */}
+              <textarea
+                name=""
+                id=""
+                cols={30}
+                rows={40}
+                contentEditable={true}
+                defaultValue={JSON.stringify(content[v], null, 2)}
+                onChange={(e) => {
+                  const newContent = content;
+
+                  newContent[v] = JSON.parse(e.target.value);
+                  setContent(newContent);
+                }}
+              />
             </div>
-          </button>
-        </div>
-      </RouteGuard>
+          ))
+          :
+          undefined
+        }
+        <button
+          onClick={Submit}
+          className={`fixed z-10 bottom-8 right-5 w-20 h-20 p-5 bg-indigo-400 text-white rounded-full flex justify-center items-center`}
+        >
+          <div className="w-full h-full flex justify-center items-center">
+            <BsFillSendCheckFill className="text-4xl -ml-1.5 -mb-1 align-middle" />
+          </div>
+        </button>
+      </div>
     </div>
   )
 }
 
 export default ToolsPage
+
+function useLayoutEffect(arg0: () => void, arg1: (string | boolean | import("next/dist/shared/lib/app-router-context.shared-runtime").AppRouterInstance)[]) {
+  throw new Error("Function not implemented.")
+}

@@ -2,25 +2,42 @@ import Ranking from "@/components/Ranking";
 import prisma from "@/lib/prisma";
 import { Candidate } from "@/lib/types";
 import { Votables } from "@/lib/votables";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: 'Ranking | ACLC Voting System'
+}
 
 async function getCandidates() {
-  const Candidates = await prisma.candidates.findMany({ where: { marked: false } })
+  const Candidates = await prisma.candidates.findMany({ where: { marked: false } });
 
-  const List: { [id: string]: Array<Candidate> } = {
-    President: [],
-    VicePresident: [],
-    Secretary: [],
-    Treasurer: [],
-    Auditor: [],
-    BusinessManager: [],
-    PIO: [],
-    SGTA: [],
-    Muse: [],
-    Escort: []
-  };
+  const positions = [
+    "President",
+    "Vice President",
+    "Secretary",
+    "Treasurer",
+    "Auditor",
+    "Business Manager",
+    "Public Information Officer (P.I.O)",
+    "Sergeant of Arms",
+    "Muse",
+    "Escort"
+  ]
 
-  Candidates.forEach(candidate => {
-    List[candidate.position].push(candidate)
+  const sortedCandidates = Candidates.sort((a, b) => {
+    const first = positions.indexOf(Votables[a.position].label);
+    const second = positions.indexOf(Votables[b.position].label);
+    return first - second;
+  });
+
+  const List: { [id: string]: Array<Candidate> } = {};
+
+  sortedCandidates.forEach(candidate => {
+    if (List[candidate.position] === undefined) {
+      List[candidate.position] = [];
+    }
+
+    List[candidate.position].push(candidate);
   })
 
   return List
@@ -29,14 +46,14 @@ async function getCandidates() {
 async function RankingPage() {
   const Candidates = await getCandidates()
   const voters = await prisma.users.count()
+  const voted = await prisma.users.count({ where: { voted: true } });
 
   return (
-    <div className="w-full h-full flex flex-col bg-gray-100">
-      <div className="px-16 pt-10 pb-16">Voters: {voters}</div>
-      {/* <pre>{JSON.stringify(Candidates, null, 2)}</pre> */}
+    <div className="w-full h-full flex flex-col">
       <div className="flex-auto">
         {Object.keys(Candidates).map((key) => (
           <Ranking key={key}
+            voted={voted}
             voters={voters}
             data={Candidates[key]}
             label={Votables[key].label}

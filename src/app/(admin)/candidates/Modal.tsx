@@ -10,24 +10,23 @@ import { AiOutlineCloudUpload } from "react-icons/ai";
 import Image from "next/image";
 import api from "@/lib/api";
 import { ServerResponse } from "@/app/api/types";
-import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import SimpleSearch from "@/components/SimpleSearch/Search";
 
 type ModalProps = {
-  staticData: Array<Party>;
+  staticData: Array<any>;
   data: Array<any>;
+  party: Array<Party>;
   update: Dispatch<SetStateAction<Array<any>>>;
 };
-function CandidateModal({ staticData, data, update }: ModalProps) {
-  const router = useRouter();
+function CandidateModal({ staticData, data, update, party }: ModalProps) {
   const [modal, setModal] = useState<boolean>(false);
 
   const [file, setFile] = useState<File>();
   const [preview, setPreview] = useState<string>();
 
-  const [party, setParty] = useState<string | null>(
-    data.length > 0 ? data[0].name : null
+  const [Party, setParty] = useState<string | null>(
+    party.length > 0 ? party[0].name : null
   );
   const [position, setPosition] = useState<string>("President");
   const [name, setName] = useState<string | null>(null);
@@ -44,41 +43,66 @@ function CandidateModal({ staticData, data, update }: ModalProps) {
     const data = new FormData();
     if (file) {
       data.set("file", file);
-    }
+      const image: ServerResponse = await (
+        await fetch("/api/images", {
+          method: "POST",
+          body: data,
+        })
+      ).json();
 
-    const image: ServerResponse = await (
-      await fetch("/api/images", {
-        method: "POST",
-        body: data,
-      })
-    ).json();
+      if (image.state === true) {
+        const candidatedata = {
+          icon: (image.data ? `/images/${image.data}` : undefined),
+          party,
+          position,
+          name,
+        };
+        const res = await api("candidates").post(candidatedata);
 
-    if (image.state === true) {
-      const data = {
-        icon: `/images/${image.data}`,
-        party,
-        position,
-        name,
-      };
-      const res = await api("candidates").post(data);
+        if (res.state === true) {
+          // setModal(!modal);
+          setFile(undefined);
+          setName(null);
 
-      if (res.state === true) {
-        // setModal(!modal);
-        setFile(undefined);
-        setName(null);
+          if (update) {
+            update((v: any) => [...v, res.data]);
+          }
 
-        if (update) {
-          update((v: any) => [...v, res.data]);
+          toast.success('Successfully created a new candidate')
+        }
+        else {
+          toast.error('Something went wrong with the candidate request, please try again.');
         }
 
-        toast.success('Successfully created a new candidate')
+        toast.success('Successfully uploaded an image');
       }
       else {
-        toast.error('Something went wrong with the candidate request, please try again.');
+        toast.error('Something went wrong with the image upload, please try again.');
       }
+
+      return;
+    }
+
+    const candidatedata = {
+      party: Party,
+      position,
+      name,
+    };
+    const res = await api("candidates").post(candidatedata);
+
+    if (res.state === true) {
+      // setModal(!modal);
+      setFile(undefined);
+      setName(null);
+
+      if (update) {
+        update((v: any) => [...v, res.data]);
+      }
+
+      toast.success('Successfully created a new candidate')
     }
     else {
-      toast.error('Something went wrong with the image upload, please try again.');
+      toast.error('Something went wrong with the candidate request, please try again.');
     }
   };
 
@@ -145,10 +169,10 @@ function CandidateModal({ staticData, data, update }: ModalProps) {
                   name="party"
                   id="party"
                   className="text-input"
-                  value={party ? party : undefined}
+                  value={Party ? Party : undefined}
                   onChange={(ev) => setParty(ev.target.value)}
                 >
-                  {data.map((v) => (
+                  {party.map((v) => (
                     <option key={v.name} value={v.name}>
                       {v.name}
                     </option>
@@ -224,7 +248,10 @@ function CandidateModal({ staticData, data, update }: ModalProps) {
         <></>
       )}
       <header className="w-full p-5 flex flex-row items-center justify-between bg-gray-200">
-        <SimpleSearch label="ID" target="id" staticData={staticData} data={data} update={update} />
+        <div className="flex-auto flex gap-x-2">
+          <SimpleSearch label="ID" target="id" staticData={staticData} data={data} update={update} />
+          <SimpleSearch label="Name" target="name" staticData={staticData} data={data} update={update} />
+        </div>
 
         <button
           onClick={() => setModal(!modal)}

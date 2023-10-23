@@ -1,7 +1,4 @@
-import Table from "@/components/Table";
 import prisma from "@/lib/prisma";
-import { Prisma } from "@prisma/client";
-import CandidateModal from "./Modal";
 
 import Candidates from "./Candidates";
 import { Metadata } from "next";

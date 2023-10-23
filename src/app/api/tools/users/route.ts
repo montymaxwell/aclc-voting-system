@@ -4,14 +4,15 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(request: Request) {
     const users: Array<UserCreate> = await request.json();
-    console.log(users);
-    
+    const user_list = users.map(({ USN }) => USN);
+    const filtered = users.filter((({ USN }, i) => !user_list.includes(USN, i + 1)));
+
     try {
-        await prisma.users.createMany({ data: users });
+       await prisma.users.createMany({ data: filtered });
 
         return new Response(JSON.stringify({ 
             state: true, 
-            data: 'Successfully created new users'
+            message: 'Successfully created new users'
 
         }), { status: 201 });
 

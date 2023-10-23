@@ -1,9 +1,5 @@
-import Link from "next/link"
-import { MdBallot, MdBuildCircle, MdFlag, MdPeople, MdPerson, MdAssessment } from "react-icons/md"
-import { FaRankingStar } from 'react-icons/fa6';
-import LogoutBtn from "@/components/LogoutBtn"
-import { FaVoteYea } from "react-icons/fa"
 import { Metadata } from "next";
+import Routing from "./Routing";
 
 export const metadata: Metadata = {
   title: 'Admin | ACLC Voting System'
@@ -14,39 +10,9 @@ type LayoutProps = {
 }
 function AdminLayout({ children }: LayoutProps) {
   return (
-    <div className="w-full h-full flex flex-col">
+    <div className="w-full h-full flex flex-col snap-mandatory snap-y overflow-auto">
       <main className="flex-auto flex flex-row flex-nowrap">
-        <nav className="w-24 h-full fixed bg-slate-800 text-white flex flex-col items-center">
-          <Link href='/users' className="link hover:bg-slate-900">
-            <MdPerson />
-            <span>Users</span>
-          </Link>
-          <Link href='/party' className="link hover:bg-slate-900">
-            <MdFlag />
-            <span>Party</span>
-          </Link>
-          <Link href='/candidates' className="link hover:bg-slate-900">
-            <MdPeople />
-            <span>Candidates</span>
-          </Link>
-          <Link href='/votes' className="link hover:bg-slate-900">
-            <FaVoteYea />
-            <span>Votes</span>
-          </Link>
-          <Link href='/votes2' className="link hover:bg-slate-900">
-            <MdBallot />
-            <span>Voting</span>
-          </Link>
-          <Link href='/ranking' className="link hover:bg-slate-900">
-            <MdAssessment />
-            <span>Ranking</span>
-          </Link>
-          <Link href='/tools' className="link hover:bg-slate-900">
-            <MdBuildCircle />
-            <span>Tools</span>
-          </Link>
-          <LogoutBtn />
-        </nav>
+        <Routing />
         <div className="ml-24 flex-auto">
           {children}
         </div>

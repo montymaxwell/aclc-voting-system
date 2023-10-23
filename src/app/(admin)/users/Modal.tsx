@@ -2,6 +2,7 @@
 
 import Modal from "@/components/Modal"
 import { IoMdClose } from 'react-icons/io'
+import { GiPerspectiveDiceSixFacesRandom } from 'react-icons/gi'
 
 import { Dispatch, SetStateAction, useState } from "react"
 import api from "@/lib/api"
@@ -15,6 +16,10 @@ function UserModal({ staticData, data, update }: { staticData: Array<any>, data:
   const [USN, setUSN] = useState<string | null>(null)
   const [password, setPassword] = useState<string | null>(null)
   const [name, setName] = useState<string | null>(null)
+
+  const generateRandom = () => {
+    setUSN(String(Math.floor(10000000000 + Math.random() * 100000000000)))
+  }
 
   const Submit = async () => {
     if (role === 'admin') {
@@ -101,21 +106,29 @@ function UserModal({ staticData, data, update }: { staticData: Array<any>, data:
             <div className="w-full flex flex-row my-4 px-5">
               <div className="flex-auto pr-2">
                 <label htmlFor="USN" className='form-label mx-3 my-2'>USN</label>
-                <input
-                  type="text"
-                  name='USN'
-                  placeholder='USN'
-                  value={(USN ? USN : '')}
-                  className='text-input primary-input'
-                  onChange={(ev) => {
-                    if (ev.target.value === '') {
-                      setUSN(null);
-                    }
-                    else {
-                      setUSN(ev.target.value);
-                    }
-                  }}
-                />
+                <div className="flex flex-row flex-nowrap">
+                  <input
+                    type="text"
+                    name='USN'
+                    placeholder='USN'
+                    value={(USN ? USN : '')}
+                    className='text-input primary-input'
+                    onChange={(ev) => {
+                      if (ev.target.value === '') {
+                        setUSN(null);
+                      }
+                      else {
+                        setUSN(ev.target.value);
+                      }
+                    }}
+                  />
+                  <button
+                    onClick={generateRandom}
+                    className="p-2.5 bg-gray-200 mx-1 text-gray-500 rounded-md hover:bg-blue-500 hover:text-white"
+                  >
+                    <GiPerspectiveDiceSixFacesRandom size={25} className="" />
+                  </button>
+                </div>
               </div>
               <div className="flex-auto pl-2">
                 <label htmlFor="password" className='form-label mx-3 my-2'>Password</label>
@@ -172,10 +185,10 @@ function UserModal({ staticData, data, update }: { staticData: Array<any>, data:
         </Modal>
         : <></>}
       <header className="w-full p-5 flex flex-row items-center bg-gray-200">
-        <SimpleSearch label="USN" target='USN' staticData={staticData} data={data} update={update} />
-        {/* <div className="flex-auto flex flex-row justify-end px-2">
-          <button className="button ml-auto bg-gray-600 text-white hover:bg-gray-800">Import</button>
-        </div> */}
+        <div className="flex-auto flex gap-x-2">
+          <SimpleSearch label="USN" target='USN' staticData={staticData} data={data} update={update} />
+          <SimpleSearch label="Name" target='name' staticData={staticData} data={data} update={update} />
+        </div>
         <button
           onClick={() => setModal(!modal)}
           className="button ml-auto bg-gray-600 text-white hover:bg-gray-800"

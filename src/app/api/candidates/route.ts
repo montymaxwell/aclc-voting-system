@@ -11,7 +11,7 @@ export async function POST(request: NextRequest) {
             prisma.candidates.create({ data: form }),
             prisma.party.update({
                 where: { name: form.party },
-                data: { members: { push: form.id } }
+                data: { members: { push: form.name } }
             })
         ])
 
@@ -37,7 +37,7 @@ export async function DELETE(request: NextRequest) {
     if(id) {
         try {
             await prisma.candidates.update({ 
-                where: { id },
+                where: { id: Number(id) },
                 data: { marked: true } 
             });
             return NextResponse.json<ServerResponse>({

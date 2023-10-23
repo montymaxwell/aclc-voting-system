@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { Votes } from "./index";
 import { MdVerified } from "react-icons/md";
 import Image from "next/image";
+import { FaUserTie } from "react-icons/fa6";
 
 type Props = {
   data: any;
@@ -102,22 +103,26 @@ function Card({ data, action }: { data: CandidateType; action?: () => void }) {
     <div
       role="button"
       onClick={action}
-      className={`VoteCard border-4 ${user.selected ? "border-green-400" : "border-transparent"
+      className={`VoteCard border-4 hover:border-green-200 ${user.selected ? "border-green-400" : "border-transparent"
         }`}
     >
       {/* for image */}
       <div className="w-32 h-32 p-1 relative">
         <div className="w-full h-full bg-gray-200 rounded-md">
           <div className="w-32 h-32">
-            <Image
-              src={user.icon ? user.icon : ""}
-              width={128}
-              height={128}
-              style={{ objectFit: 'cover', width: '120px', height: '120px' }}
-              className="rounded-md bg-cover"
-              alt="candidate image"
-              priority
-            />
+            {user.icon ?
+              <Image
+                src={user.icon}
+                width={128}
+                height={128}
+                style={{ objectFit: 'cover', width: '120px', height: '120px' }}
+                className="rounded-md bg-cover"
+                alt="candidate image"
+                priority
+              />
+              :
+              <FaUserTie size={128} className='p-3 text-gray-400' />
+            }
           </div>
         </div>
         <div className="absolute bottom-0 left-0 px-2 py-1 text-sm rounded-full bg-indigo-500 text-white">
@@ -126,7 +131,6 @@ function Card({ data, action }: { data: CandidateType; action?: () => void }) {
       </div>
 
       <div className="flex-auto pl-3">
-        {/* <h6 className="font-light mb-2 text-gray-500">Something</h6> */}
         <h1 className="text-1xl font-medium ">
           {data.name}
         </h1>

@@ -33,14 +33,9 @@ export async function POST(request: NextRequest) {
             ]);
 
             voter.votes.forEach(async vote => {
-                await prisma.candidates.update({
-                    where: { id: vote },
-                    data: {
-                        votes: {
-                            increment: 1
-                        }
-                    }
-                })
+                // const voted = await prisma.$queryRaw`UPDATE candidates SET votes = votes + 1 WHERE name='${vote}'`;
+                await prisma.$queryRawUnsafe(`UPDATE candidates SET votes = votes + 1 WHERE name='${vote}'`)
+                // console.log(voted);
             });
 
             return NextResponse.json<ServerResponse>({

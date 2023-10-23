@@ -1,5 +1,5 @@
 "use client";
-import { useLayoutEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 import { Candidate } from "@/lib/types";
 import CandidateModal from "./Modal";
 import Table from "@/components/Table";
@@ -15,6 +15,7 @@ function Candidates({ data, party }: Props) {
     const account = useUserStore()
     const router = useRouter()
     const [auth, setAuth] = useState<boolean>(false)
+    const [candidates, setCandidates] = useState<Array<Object>>(data);
 
     useLayoutEffect(() => {
         if (account.userInfo.usn !== "" || account.userInfo.role !== "user") {
@@ -26,11 +27,9 @@ function Candidates({ data, party }: Props) {
         }
     }, [auth, account.userInfo.usn, account.userInfo.role, router])
 
-    const [candidates, setCandidates] = useState<Array<Object>>(data);
-
     return (
         <>
-            <CandidateModal staticData={data} data={candidates} update={setCandidates} />
+            <CandidateModal staticData={data} data={candidates} party={party} update={setCandidates} />
             <div className="flex-auto">
                 <Table
                     body={candidates}

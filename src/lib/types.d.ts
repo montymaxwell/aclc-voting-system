@@ -8,9 +8,7 @@ type VoteProps = {
 export type User = {
     USN: string,
     role: 'user' | 'admin' | string,
-    firstname: string,
-    lastname: string,
-    middleInitial: string,
+    name: string,
     strand: string,
     voted?: boolean,
     voteList?: Array<string>,

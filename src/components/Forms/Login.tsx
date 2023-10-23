@@ -42,6 +42,7 @@ function Login() {
                 role: user.role!,
                 voted: user.voted!,
                 voteList: user.voteList!,
+                name: user.name
             });
 
             switch (user.role) {

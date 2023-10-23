@@ -10,7 +10,7 @@ export async function POST(request: Request) {
         if(existing_user) {
             return NextResponse.json<ServerResponse>({
                 state: false,
-                message: 'User already exists',
+                message: 'User with that USN already exists',
 
             }, { status: 200 })
         }

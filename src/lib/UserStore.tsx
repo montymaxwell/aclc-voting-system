@@ -8,6 +8,7 @@ export type UserType = {
     voteList: Array<string>;
     voted: boolean;
     strand: string;
+    name: string,
   };
   addUserInfo: (info: {
     usn: string;
@@ -15,6 +16,7 @@ export type UserType = {
     voteList: Array<string>;
     voted: boolean;
     strand: string;
+    name: string
   }) => void;
   addVotes: (votes: Array<string>) => void;
   logout: () => void;
@@ -30,6 +32,7 @@ export const useUserStore = create<UserType>()(
           voteList: [],
           voted: false,
           strand: "",
+          name: "",
         },
         addUserInfo: (info) => set(() => ({ userInfo: { ...info } })),
         addVotes: (votes) =>
@@ -47,6 +50,7 @@ export const useUserStore = create<UserType>()(
               voteList: [],
               voted: false,
               strand: "",
+              name: "",
             },
           })),
       }),
