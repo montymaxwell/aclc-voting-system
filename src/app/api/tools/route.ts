@@ -3,9 +3,9 @@ import { ServerResponse } from "../types";
 import { join } from "path";
 import { writeFile } from "fs/promises";
 import excel from "./excel";
+import { existsSync, mkdirSync } from "fs";
 
 export async function POST(request: NextRequest) {
-    console.log('hit')
     const data = await request.formData();
     const file: File | null = data.get('file') as unknown as File
 
@@ -19,14 +19,20 @@ export async function POST(request: NextRequest) {
 
     const bytes = await file.arrayBuffer();
     const buffer = Buffer.from(bytes);
-    const path = join(__dirname, '../../../../../public/files', file.name);
+
+    const dir = join(__dirname, '../../../../../public/files');
+    if(!existsSync(dir)) {
+        mkdirSync(dir, { recursive: true });
+    }
+
+    const path = join(dir, file.name);
     await writeFile(path, buffer);
 
-    const content = excel(join(__dirname, '../../../../../public/files', file.name));
+    const content = excel(join(dir, file.name));
 
     return NextResponse.json<ServerResponse>({
         state: true,
         message: 'Successfully uploaded the file',
         data: content
-    })
+    });
 }

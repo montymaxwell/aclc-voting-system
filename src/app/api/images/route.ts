@@ -1,4 +1,5 @@
 import { ServerResponse } from "@/app/api/types";
+import { existsSync, mkdirSync } from "fs";
 import { writeFile } from "fs/promises";
 import { NextRequest, NextResponse } from "next/server";
 import { join } from "path";
@@ -19,8 +20,13 @@ export async function POST(request: NextRequest) {
     
         const bytes = await file.arrayBuffer();
         const buffer = Buffer.from(bytes);
+
+        const dir = join(__dirname, '../../../../../public/images');
+        if(!existsSync(dir)) {
+            mkdirSync(dir, { recursive: true });
+        }
     
-        const path = join(__dirname, '../../../../../public/images', file.name);
+        const path = join(dir, file.name);
         await writeFile(path, buffer);
     
         return NextResponse.json<ServerResponse>({

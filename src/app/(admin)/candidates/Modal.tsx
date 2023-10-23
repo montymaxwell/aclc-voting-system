@@ -53,7 +53,7 @@ function CandidateModal({ staticData, data, update, party }: ModalProps) {
       if (image.state === true) {
         const candidatedata = {
           icon: (image.data ? `/images/${image.data}` : undefined),
-          party,
+          party: Party,
           position,
           name,
         };

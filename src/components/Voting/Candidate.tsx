@@ -103,7 +103,7 @@ function Card({ data, action }: { data: CandidateType; action?: () => void }) {
     <div
       role="button"
       onClick={action}
-      className={`VoteCard border-4 hover:border-green-200 ${user.selected ? "border-green-400" : "border-transparent"
+      className={`VoteCard border-4 ${user.selected ? '' : 'hover:border-green-200'} ${user.selected ? "border-green-400" : "border-transparent"
         }`}
     >
       {/* for image */}
