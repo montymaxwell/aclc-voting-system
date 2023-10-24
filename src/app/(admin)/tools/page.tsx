@@ -130,7 +130,3 @@ function ToolsPage() {
 }
 
 export default ToolsPage
-
-function useLayoutEffect(arg0: () => void, arg1: (string | boolean | import("next/dist/shared/lib/app-router-context.shared-runtime").AppRouterInstance)[]) {
-  throw new Error("Function not implemented.")
-}

@@ -58,8 +58,8 @@ function Ranking({ label, data, voters, voted }: Props) {
             </div>
           ))}
         </div>
-        <div className="w-3/4 flex flex-col justify-center items-center gap-y-5 p-10">
-          <div className="w-full px-4 flex flex-row flex-wrap items-center">
+        <div className="w-full h-full flex flex-col justify-center items-center gap-y-5 p-10">
+          <div className="w-3/4 px-4 flex flex-row flex-wrap items-center">
             <div className="tracking-wide">{label}</div>
             <div className="ml-auto">
               <span className="text-xl text-indigo-500">{voted}</span>
@@ -71,7 +71,7 @@ function Ranking({ label, data, voters, voted }: Props) {
               <span className="ml-2 text-sm text-gray-600">Voters</span>
             </div>
           </div>
-          <div className="w-full h-3/4">
+          <div className="w-3/4 h-3/4">
             <div className="relative w-full h-full border-4 border-gray-300 rounded-xl flex flex-row items-end gap-x-5 justify-center">
               <div className="absolute w-full h-1/4 -z-10 border-t border-gray-200">
                 <div className="-mt-3 -ml-12 text-gray-400">25%</div>
@@ -84,7 +84,7 @@ function Ranking({ label, data, voters, voted }: Props) {
               </div>
               {filtered.map((candidate, i) => (
                 <div key={candidate.id} className="h-full flex flex-col justify-end items-center">
-                  <div className="text-gray-800">{Math.round((candidate.votes! / voters) * 100)}</div>
+                  <div className="text-gray-800">{Math.round((candidate.votes! / voters) * 100) / 100}</div>
                   <div className={`w-16 ${getColor(i)} rounded-t-lg`} style={{ height: `${(candidate.votes! / voters) * 100}%` }} />
                 </div>
               ))}

@@ -94,7 +94,7 @@ function Voting({ data }: Props) {
     <>
       {auth ?
         <div className="w-full">
-          <div className="w-full flex flex-auto items-center relative px-4 py-6">
+          <div className="w-full flex flex-auto items-center bg-white z-10 px-4 py-6 sticky top-0">
             <Image
               src="/aclclogo.png"
               alt="aclclogo"
